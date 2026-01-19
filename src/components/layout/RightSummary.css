@@ -1,0 +1,64 @@
+/* Base table styling */
+.summary-table th,
+.summary-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e6e8f0;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.summary-total-row td {
+  border-top: 2px solid #e6e8f0;
+  font-weight: 800;
+  background: #fafafa;
+}
+
+.summary-total-label {
+  text-align: left;
+}
+
+.summary-total-cell {
+  font-weight: 800;
+}
+
+.summary-empty {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+}
+
+
+.summary-table th {
+  font-weight: 800;
+  text-align: left;
+  background: #ffffff;
+}
+
+.summary-table td {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.summary-table td.numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== Narrow summary columns ===== */
+.summary-col-narrow {
+  width: 90px;
+  max-width: 90px;
+}
+
+/* Header-specific wrapping */
+.summary-table th.summary-col-narrow {
+  white-space: normal;        /* allow wrap */
+  word-break: break-word;
+  line-height: 1.15;
+  text-align: center;
+  font-size: 11px;
+}
+
+/* Data cells stay compact */
+.summary-table td.summary-col-narrow {
+  text-align: right;
+}
