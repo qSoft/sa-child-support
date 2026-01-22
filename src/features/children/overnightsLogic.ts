@@ -35,21 +35,6 @@ function validateDaysInput(n: number, totalDays: 365 | 366): string | null {
 }
 
 
-
-function clampInt(n: number, min: number, max: number): number {
-    if (!Number.isFinite(n)) return min;
-    const v = Math.trunc(n);
-    return Math.max(min, Math.min(max, v));
-}
-
-function clampPercent(n: number): number {
-    if (!Number.isFinite(n)) return 0;
-    return Math.max(0, Math.min(100, Math.round(n)));
-}
-
-
-
-
 export function recalcOvernightsStrict(
   prev: Overnights,
   edited: OvernightsField,
