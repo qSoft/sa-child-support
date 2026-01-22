@@ -35,17 +35,6 @@ function validateDaysInput(n: number, totalDays: 365 | 366): string | null {
 }
 
 
-/**
- * totalDays rule:
- * - normally 365
- * - if exactly 50/50, use 366 (183 + 183)
- */
-function getTotalDaysForPercents(p1Percent: number, p2Percent: number): 365 | 366 {
-    return p1Percent === 50 && p2Percent === 50 ? 366 : 365;
-}
-function getTotalDaysForDays(p1Days: number, p2Days: number): 365 | 366 {
-    return p1Days === 183 && p2Days === 183 ? 366 : 365;
-}
 
 function clampInt(n: number, min: number, max: number): number {
     if (!Number.isFinite(n)) return min;
@@ -58,26 +47,8 @@ function clampPercent(n: number): number {
     return Math.max(0, Math.min(100, Math.round(n)));
 }
 
-/**
- * Convert days -> percent (whole number) based on totalDays.
- * Then enforce p1+p2=100 by setting the other side to 100 - rounded.
- */
-function daysToPercents(p1Days: number, totalDays: number): { p1Percent: number; p2Percent: number } {
-    const raw = (p1Days / totalDays) * 100;
-    const p1Percent = clampPercent(raw);
-    const p2Percent = 100 - p1Percent;
-    return { p1Percent, p2Percent };
-}
 
-/**
- * Convert percent -> days (integer) based on totalDays.
- * Then enforce p1+p2=totalDays by putting remainder into the other side.
- */
-function percentsToDays(p1Percent: number, totalDays: number): { p1Days: number; p2Days: number } {
-    const p1Days = clampInt(Math.round((p1Percent / 100) * totalDays), 0, totalDays);
-    const p2Days = totalDays - p1Days;
-    return { p1Days, p2Days };
-}
+
 
 export function recalcOvernightsStrict(
   prev: Overnights,
