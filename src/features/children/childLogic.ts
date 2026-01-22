@@ -1,4 +1,5 @@
-import type { Parent, OvernightsInputMode } from "./types";
+import { OvernightsField } from "./overnightsLogic";
+import type { Parent } from "./types";
 
 export function calcAgeYearsMonths(dobISO: string, asOfISO: string): { years: number; months: number } {
   if (!dobISO || !asOfISO) return { years: 0, months: 0 };
@@ -29,32 +30,78 @@ export function defaultCustodialParentByOvernights(p1Percent: number): Parent {
   return (Number(p1Percent) || 0) > 50 ? "P1" : "P2";
 }
 
-export function normalizeOvernights(
-  inputMode: OvernightsInputMode,
-  p1Value: number | "",
-  p2Value: number | ""
-): { p1Percent?: number; p2Percent?: number; p1Days?: number; p2Days?: number } {
-  if (inputMode === "PERCENT") {
-    const p1 = clampNumber(p1Value, 0, 100);
-    const p2 = clampNumber(p2Value, 0, 100);
-
-    if (p1Value !== "" && (p2Value === "" || p2Value == null)) return { p1Percent: p1, p2Percent: clampNumber(100 - p1, 0, 100) };
-    if (p2Value !== "" && (p1Value === "" || p1Value == null)) return { p2Percent: p2, p1Percent: clampNumber(100 - p2, 0, 100) };
-
-    return { p1Percent: p1, p2Percent: p2 };
-  }
-
-  const totalDays = 365;
-  const p1Days = clampNumber(p1Value, 0, totalDays);
-  const p2Days = clampNumber(p2Value, 0, totalDays);
-  const p1Percent = Math.round((p1Days / totalDays) * 1000) / 10;
-  const p2Percent = Math.round((p2Days / totalDays) * 1000) / 10;
-
-  return { p1Days, p2Days, p1Percent, p2Percent };
-}
 
 function clampNumber(v: number | "", min: number, max: number): number {
   const n = typeof v === "number" ? v : Number(v);
   if (Number.isNaN(n)) return 0;
   return Math.max(min, Math.min(max, n));
+}
+
+const clampInt = (n: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, Math.trunc(n)));
+
+const clampPercent = (n: number) =>
+  Math.max(0, Math.min(100, Math.round(n)));
+
+function totalDaysForPercents(p1: number, p2: number): 365 | 366 {
+  return p1 === 50 && p2 === 50 ? 366 : 365;
+}
+
+function totalDaysForDays(p1: number, p2: number): 365 | 366 {
+  return p1 === 183 && p2 === 183 ? 366 : 365;
+}
+
+export function recalcOvernights(
+  prev: {
+    p1Days: number;
+    p2Days: number;
+    p1Percent: number;
+    p2Percent: number;
+  },
+  edited: OvernightsField,
+  value: number
+) {
+  let p1Days = prev.p1Days;
+  let p2Days = prev.p2Days;
+  let p1Percent = prev.p1Percent;
+  let p2Percent = prev.p2Percent;
+
+  // ----- EDIT PERCENT -----
+  if (edited === "P1_PERCENT" || edited === "P2_PERCENT") {
+    if (edited === "P1_PERCENT") {
+      p1Percent = clampPercent(value);
+      p2Percent = 100 - p1Percent;
+    } else {
+      p2Percent = clampPercent(value);
+      p1Percent = 100 - p2Percent;
+    }
+
+    const totalDays = totalDaysForPercents(p1Percent, p2Percent);
+    p1Days = clampInt(Math.round((p1Percent / 100) * totalDays), 0, totalDays);
+    p2Days = totalDays - p1Days;
+
+    return { p1Days, p2Days, p1Percent, p2Percent };
+  }
+
+  // ----- EDIT DAYS -----
+  const totalDays = totalDaysForDays(prev.p1Days, prev.p2Days);
+
+  if (edited === "P1_DAYS") {
+    p1Days = clampInt(value, 0, totalDays);
+    p2Days = totalDays - p1Days;
+  } else {
+    p2Days = clampInt(value, 0, totalDays);
+    p1Days = totalDays - p2Days;
+  }
+
+  p1Percent = clampPercent((p1Days / totalDays) * 100);
+  p2Percent = 100 - p1Percent;
+
+  // If we landed on exact 50/50 → force 366 days
+  if (p1Percent === 50 && p2Percent === 50) {
+    p1Days = 183;
+    p2Days = 183;
+  }
+
+  return { p1Days, p2Days, p1Percent, p2Percent };
 }

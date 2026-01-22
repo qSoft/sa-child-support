@@ -2,7 +2,7 @@ import React from "react";
 import "./AppLayout.css";
 import Header from "./Header";
 import LeftNav from "./LeftNav";
-import RightSummary from "./RightSummary";
+import RightSummary from "../Summary/RightSummary";
 
 export type AppLayoutProps = {
   middle: React.ReactNode;

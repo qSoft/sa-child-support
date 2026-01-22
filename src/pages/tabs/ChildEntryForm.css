@@ -1,0 +1,101 @@
+.child-entry {
+  border: 1px solid #e6e8f0;
+  border-radius: 10px;
+  padding: 12px;
+  background: #fff;
+}
+
+.ce-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.ce-field {
+  display: block;
+}
+
+.ce-label {
+  font-size: 12px;
+  font-weight: 800;
+  opacity: 0.75;
+  margin-bottom: 6px;
+}
+
+.ce-input,
+.ce-select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e6e8f0;
+  box-sizing: border-box;
+}
+
+.ce-select {
+  background: white;
+}
+
+.ce-radio-row {
+  display: flex;
+  gap: 12px;
+  padding-top: 6px;
+}
+
+.ce-radio {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.ce-checkbox-wrap {
+  padding-top: 10px;
+}
+
+.ce-checkbox {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ce-note {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.ce-section {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #eef0f6;
+}
+
+.ce-section-title {
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.ce-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.ce-btn-primary {
+  border: 1px solid #111827;
+  background: #111827;
+  color: white;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.ce-btn-secondary {
+  border: 1px solid #e6e8f0;
+  background: white;
+  color: #111827;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 800;
+}

@@ -1,16 +1,15 @@
 export type RelationshipType = "THIS" | "OTHER";
 export type YesNo = "YES" | "NO";
 export type Parent = "P1" | "P2";
-export type OvernightsInputMode = "PERCENT" | "DAYS";
+
 
 export interface Overnights {
-  inputMode: OvernightsInputMode;
-  p1Percent: number;
-  p2Percent: number;
-  p1Days: number;
-  p2Days: number;
-  overridden: boolean;
+  p1Percent: number; // 0..100
+  p2Percent: number; // 0..100
+  p1Days: number;    // 0..totalDays
+  p2Days: number;    // 0..totalDays
 }
+
 
 export interface ChildSupport {
   eligible: YesNo;
@@ -45,13 +44,15 @@ export interface ChildDraft {
   id: string;
   relationshipType: RelationshipType;
   name: string;
-  dob: string; // ISO date
+  dob: string;
   fullTimeStudent: YesNo;
   overnights: Overnights;
   childSupport: ChildSupport;
   dependentCare: DependentCare;
   computed: ChildComputed;
+  validation: ChildValidation; 
 }
+
 
 export interface ChildrenUiState {
   activeForm: null | { relationshipType: RelationshipType; draftId: string };
@@ -62,4 +63,8 @@ export interface ChildrenState {
   childrenOtherRelationship: ChildDraft[];
   ui: ChildrenUiState;
   draftsById: Record<string, ChildDraft>;
+}
+
+export interface ChildValidation {
+  overnightsError: string;
 }
