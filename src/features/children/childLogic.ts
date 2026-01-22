@@ -31,11 +31,6 @@ export function defaultCustodialParentByOvernights(p1Percent: number): Parent {
 }
 
 
-function clampNumber(v: number | "", min: number, max: number): number {
-  const n = typeof v === "number" ? v : Number(v);
-  if (Number.isNaN(n)) return 0;
-  return Math.max(min, Math.min(max, n));
-}
 
 const clampInt = (n: number, min: number, max: number) =>
   Math.max(min, Math.min(max, Math.trunc(n)));
