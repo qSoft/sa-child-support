@@ -99,3 +99,19 @@
   cursor: pointer;
   font-weight: 800;
 }
+
+.ce-control {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px;
+  align-items: center;
+}
+
+.ce-control-input {
+  min-width: 0;
+}
+
+.ce-control-tooltip {
+  display: flex;
+  align-items: center;
+}
