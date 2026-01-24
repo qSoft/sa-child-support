@@ -2,7 +2,7 @@ import React from "react";
 import { useAppSelector } from "../../app/hooks";
 import type { ChildDraft } from "../../features/children/types";
 import { buildSummaryRows, type SummaryRow } from "../utilities/summaryCalc";
-import "./RightSummary.css";
+import "./ChildSupportSummary.css";
 
 
 type ColumnKey =
@@ -28,7 +28,7 @@ const columns: { key: ColumnKey; label: string; className?: string }[] = [
 ];
 
 
-export default function RightSummary() {
+export default function ChildSupportSummary() {
     const generalInfo = useAppSelector((s) => s.case.generalInfo);
     const thisKids = useAppSelector((s) => s.children.childrenThisRelationship);
     const otherKids = useAppSelector((s) => s.children.childrenOtherRelationship);
