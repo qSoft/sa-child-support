@@ -6,9 +6,6 @@ type UiState = {
   activeTopTab: TopTabKey;
 };
 
-const initialState: UiState = {
-  activeTopTab: "general",
-};
 
 const uiSlice = createSlice({
   name: "ui",
