@@ -2,9 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type TopTabKey = "general" | "children" | "federal" | "state";
 
-type UiState = {
-  activeTopTab: TopTabKey;
-};
 
 
 const uiSlice = createSlice({
